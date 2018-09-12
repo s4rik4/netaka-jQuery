@@ -23,3 +23,7 @@
 
 
 })(jQuery);
+
+function openNewEventModal() {
+    $("#newEventModal").modal("show");
+}
