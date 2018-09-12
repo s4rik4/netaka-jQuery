@@ -20,6 +20,7 @@ $("nav a.nav-link").click(function (ev) {
   ev.preventDefault();
   startPageChange(this, 1, false);
 });
+
 function startPageChange(elem, num, bool) {
   var link = $(elem);
   var prop = link.data("prop") || "opacity";
@@ -56,6 +57,7 @@ $(".cherry-custom-file").on("change", function (ev) {
 });
 
 var alertBox = $(".alert.alert-primary");
+
 function showInvalidMessage() {
   alertBox
     .removeClass("alert-primary")
@@ -67,3 +69,16 @@ function showInvalidMessage() {
 $(function () {
   $('[data-toggle="tooltip"]').tooltip();
 });
+
+//jQuery plugin űrlapok beküldéséhez
+$.fn.sendForm = function () {
+  $(this).on("submit", function (ev) {
+    ev.preventDefault();
+    var formData = {};
+    $(this).find("input").each(function (elem) {
+      formData[elem.name] = elem.value;
+    });
+    console.log(formData);
+  });
+  return this;
+};
