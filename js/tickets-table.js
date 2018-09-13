@@ -143,7 +143,7 @@ $(document).ready(function () {
      * akkor mi toroltuk az UL -ben levo osszes elemet igy az eddig felvett click 
      * esemenyek torlodtek es ujra fel kell hogy vegyuk oket mivel renderTicketTabletPaginator() -ban 
      * teljesen ujra generaljuk a paginatorban levo LI elemeket es benne az A elemeket
-    */
+     */
     function bindPaginatorEvents() {
         // Paginatorban levo gombok lekezelese
         $('#ticket-list-paginator > ul > li > a').click(
@@ -205,10 +205,13 @@ $(document).ready(function () {
     // Innen indul az alkalmazas
     refreshTicketList();
 
-    ticketListTable.on("ticketDataChanged", function() {
+    ticketListTable.on("ticketDataChanged", function () {
         refreshTicketList();
     });
 });
+
+// Kiválasztott esemény
+window.currentEvent = null;
 
 $("#newTicketForm").sendForm();
 // Jegylista frissítése.
@@ -221,18 +224,21 @@ function openNewTicketModal() {
     $("#newTicketModal").modal("show");
 }
 
+function setEventName(name) {
+    $("#event").val(name);
+}
 $.getJSON("http://localhost:3000/events")
-    .done( function(events) {
+    .done(function (events) {
         var select = $("#eventId");
         var eventId = window.location.href.match(/\?.*event\=([0-9]*)/)[1];
-        $.each(events, function(index, event) {
+        $.each(events, function (index, event) {
             var option = $("<option />");
             option.val(event.id);
             option.text(event.title);
             if (event.id == eventId) {
                 option.prop("selected", true);
+                setEventName(event.title);
             }
             select.append(option);
         });
     });
-
