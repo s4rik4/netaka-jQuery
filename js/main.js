@@ -20,7 +20,6 @@ $("nav a.nav-link").click(function (ev) {
   ev.preventDefault();
   startPageChange(this, 1, false);
 });
-
 function startPageChange(elem, num, bool) {
   var link = $(elem);
   var prop = link.data("prop") || "opacity";
@@ -57,7 +56,6 @@ $(".cherry-custom-file").on("change", function (ev) {
 });
 
 var alertBox = $(".alert.alert-primary");
-
 function showInvalidMessage() {
   alertBox
     .removeClass("alert-primary")
@@ -70,15 +68,34 @@ $(function () {
   $('[data-toggle="tooltip"]').tooltip();
 });
 
-//jQuery plugin űrlapok beküldéséhez
-$.fn.sendForm = function () {
-  $(this).on("submit", function (ev) {
+
+// jQuery plugin for send form data.
+$.fn.sendForm = function() {
+  var form = $(this);
+  var action = form.attr("action");
+  var method = form.attr("method") || "post";
+  var callBack = form.attr("callBack");
+
+  form.on("submit", function(ev) {
     ev.preventDefault();
     var formData = {};
-    $(this).find("input").each(function (elem) {
-      formData[elem.name] = elem.value;
+    $(this).find("input, select").each( function(index, input) {
+      formData[input.name] = input.value;
     });
-    console.log(formData);
+    $.ajax({
+      type: method.toUpperCase(),
+      url: action,
+      data: formData,
+      dataType: 'json'
+    }).done( function(resp) {
+      console.log(resp);
+      if (window[callBack]) {
+        window[callBack]();
+      }
+    });
   });
+
   return this;
 };
+
+$("#newEventForm").sendForm();
