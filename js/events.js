@@ -1,8 +1,9 @@
 var RESTURL = "http://localhost:3000";
+
 function startEventsPage() {
-    $.getJSON(RESTURL + "/events").done(function(eventList) {
-      showEventList(eventList);
-    });
+  $.getJSON(RESTURL + "/events").done(function (eventList) {
+    showEventList(eventList);
+  });
 }
 
 // Események megjelenítése.
@@ -10,7 +11,7 @@ function showEventList(eventList) {
   var template = $(".templates a.card");
   var parentElement = $(".events-card-deck");
   parentElement.html('');
-  $.each(eventList, function(index, event) {
+  $.each(eventList, function (index, event) {
     var eventElement = template.clone();
     eventElement.attr("href", "tickets.html?event=" + event.id);
     eventElement.find("h4").text(event.title);

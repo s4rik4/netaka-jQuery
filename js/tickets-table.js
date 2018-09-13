@@ -229,7 +229,9 @@ function setEventName(name) {
 }
 $.getJSON("http://localhost:3000/events")
     .done(function (events) {
-        var select = $("#eventId");
+        var select = $("#eventId").on("change", function (ev) {
+
+        });
         var eventId = window.location.href.match(/\?.*event\=([0-9]*)/)[1];
         $.each(events, function (index, event) {
             var option = $("<option />");
